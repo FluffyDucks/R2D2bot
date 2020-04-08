@@ -10,6 +10,24 @@ import asyncio
 import random
 
 #----- CONSTANTS -----#
+slap_possible_gifs = ['https://media.giphy.com/media/3XlEk2RxPS1m8/giphy.gif',
+                              'https://media.giphy.com/media/IYcXTDme1ZPMI/giphy.gif',
+                              'https://media.giphy.com/media/Hj9ixvpSfqcQo/giphy.gif',
+                              'https://media.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif',
+                              'https://media.giphy.com/media/wcgMZsFyRVYDm/giphy.gif'
+                              'https://media.giphy.com/media/XpgfPCejnWuAg/giphy.gif']
+
+spit_possible_gifs = ['https://media.giphy.com/media/l0HU5bbgdW6qzJsmQ/giphy.gif',
+                          'https://media.giphy.com/media/MD27a3bvc6Rhu/giphy.gif',
+                          'https://media.giphy.com/media/ZablVFuGJhb7qMmbqj/giphy.gif']
+
+possible_8ball_responses = ['That is a resounding no',
+                          'It is not looking likely',
+                          'Too hard to tell',
+                          'It is quite possible',
+                          'Definitely']
+
+game_name_choices = ["humans", "homo sapiens", "the boys", "the girls"]
 
 #-- Grab constants from text file --#
 file = open("constants.txt", "r")
@@ -17,14 +35,13 @@ CONSTANTS = file.read().split()
 file.close()
 
 TOKEN = CONSTANTS[0]
-BOT_PREFIX = CONSTANTS[1]
 
 bot = commands.Bot(command_prefix='%')
 
 @bot.event
 async def on_ready():
-    name_choices = ["humans", "homo sapiens", "the boys", "the girls"]
-    game = discord.Game("with {}".format(random.choice(name_choices)))
+    global game_name_choices
+    game = discord.Game("with {}".format(random.choice(game_name_choices)))
     await bot.change_presence(activity=game)
     print("Logged in as")
     print(bot.user.name)
@@ -41,8 +58,6 @@ async def ping(ctx):
     embed=discord.Embed(title=":ping_pong: Pong! :ping_pong:", description='That took {}ms'.format(round(latency, 3)), color=0x2874A6)
     await ctx.send(embed=embed)
 
-
-
 #----- Fun Commands -----#
 @bot.command(name='8ball',
                 brief="Answers from the void.",
@@ -50,19 +65,16 @@ async def ping(ctx):
                 aliases=['eight_ball', 'eightball', '8-ball'],
                 pass_context=True)
 async def eight_ball(ctx):
+    global possible_8ball_responses
     print("[DEBUG] 8ball summoned")
-    possible_responses = ['That is a resounding no',
-                          'It is not looking likely',
-                          'Too hard to tell',
-                          'It is quite possible',
-                          'Definitely']
-    await ctx.send("Beep boop " + random.choice(possible_responses) + ", " + ctx.message.author.mention)
+    await ctx.send("Beep boop " + random.choice(possible_8ball_responses) + ", " + ctx.message.author.mention)
 
 @bot.command(name = "slap",
                 brief = "get your stuff together!",
                 description = "slap another user",
                 pass_context = True)
 async def slap(ctx, user:discord.Member = None):
+    global slap_possible_gifs
     print("[DEBUG] slap detected")
     if not user:
         await ctx.send("Why you slapping air boi?")
@@ -72,13 +84,6 @@ async def slap(ctx, user:discord.Member = None):
         embed.set_image(url='https://media.giphy.com/media/3XlEk2RxPS1m8/giphy.gif')
         await ctx.send(embed=embed)
     else:
-        slap_possible_gifs = ['https://media.giphy.com/media/3XlEk2RxPS1m8/giphy.gif',
-                              'https://media.giphy.com/media/IYcXTDme1ZPMI/giphy.gif',
-                              'https://media.giphy.com/media/Hj9ixvpSfqcQo/giphy.gif',
-                              'https://media.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif',
-                              'https://media.giphy.com/media/wcgMZsFyRVYDm/giphy.gif'
-                              'https://media.giphy.com/media/XpgfPCejnWuAg/giphy.gif']
-
         text = "{} slapped {}!\nMust have been a real idiot!".format(ctx.message.author.mention, user.mention)
         embed = discord.Embed(description=text, color=0x00ff00)
         embed.set_image(url=random.choice(slap_possible_gifs))
@@ -124,12 +129,8 @@ async def hugs(ctx, user:discord.Member = None):
 
 @bot.command()
 async def spit(ctx, user:discord.Member = None):
+    global spit_possible_gifs
     print("[DEBUG] spit detected")
-
-    spit_possible_gifs = ['https://media.giphy.com/media/l0HU5bbgdW6qzJsmQ/giphy.gif',
-                          'https://media.giphy.com/media/MD27a3bvc6Rhu/giphy.gif',
-                          'https://media.giphy.com/media/ZablVFuGJhb7qMmbqj/giphy.gif']
-
     if not user:
         await ctx.send("Oi! Don't spit on the ground, wtf man clean it up...")
     elif(ctx.message.author == user):
@@ -143,11 +144,16 @@ async def spit(ctx, user:discord.Member = None):
         embed.set_image(url=random.choice(spit_possible_gifs))
         await ctx.send(embed=embed)
 
-
-
 # @bot.command(name = "kill",
 #                 brief = "Have fun in the after life"
 #                 description = "kill a user, user can be saved by reacting")
+
+@bot.command(name = "simp",
+                brief = "")
+async def simp():
+
+
+
 
 #----- Games -----#
 @bot.command(name = "lotto",
