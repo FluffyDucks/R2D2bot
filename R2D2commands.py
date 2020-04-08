@@ -26,10 +26,10 @@ async def on_ready():
     name_choices = ["humans", "homo sapiens", "the boys", "the girls"]
     game = discord.Game("with {}".format(random.choice(name_choices)))
     await bot.change_presence(activity=game)
-    print('Logged in as')
+    print("Logged in as")
     print(bot.user.name)
     print(bot.user.id)
-    print('------')
+    print("============")
 
 #========== Commands ==========#
 @bot.command(name = "ping",
