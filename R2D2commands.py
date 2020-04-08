@@ -148,12 +148,25 @@ async def spit(ctx, user:discord.Member = None):
 #                 brief = "Have fun in the after life"
 #                 description = "kill a user, user can be saved by reacting")
 
+
 @bot.command(name = "simp",
-                brief = "")
-async def simp():
-
-
-
+                brief = "For my queen!",
+                description = "have various simp related memes towards whoever you pinged",
+                pass_context = True)
+async def simp(ctx, user:discord.Member = None):
+    print("[DEBUG] spit detected")
+    if not user:
+        await ctx.send("Simp? where? I don't see them...")
+    elif(ctx.message.author == user):
+        text = "{} poured themselves a glass of simp juice.\n\nGreedy Simp...".format(ctx.message.author.mention)
+        embed = discord.Embed(description=text, color=0x00ff00)
+        embed.set_image(url="https://i.redd.it/kbrjd3824kg41.jpg")
+        await ctx.send(embed=embed)
+    else:
+        text = "{} offered {}\na cold glass of simp juice.\n\nStay hydrated my friend.".format(ctx.message.author.mention, user.mention)
+        embed = discord.Embed(description=text, color=0x00ff00)
+        embed.set_image(url="https://i.redd.it/kbrjd3824kg41.jpg")
+        await ctx.send(embed=embed)
 
 #----- Games -----#
 @bot.command(name = "lotto",
