@@ -10,24 +10,35 @@ import asyncio
 import random
 
 #----- CONSTANTS -----#
+game_name_choices = ["humans", "homo sapiens", "the boys", "the girls"]
+
 slap_possible_gifs = ['https://media.giphy.com/media/3XlEk2RxPS1m8/giphy.gif',
-                              'https://media.giphy.com/media/IYcXTDme1ZPMI/giphy.gif',
-                              'https://media.giphy.com/media/Hj9ixvpSfqcQo/giphy.gif',
-                              'https://media.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif',
-                              'https://media.giphy.com/media/wcgMZsFyRVYDm/giphy.gif'
-                              'https://media.giphy.com/media/XpgfPCejnWuAg/giphy.gif']
+                      'https://media.giphy.com/media/IYcXTDme1ZPMI/giphy.gif',
+                      'https://media.giphy.com/media/Hj9ixvpSfqcQo/giphy.gif',
+                      'https://media.giphy.com/media/Gf3AUz3eBNbTW/giphy.gif',
+                      'https://media.giphy.com/media/wcgMZsFyRVYDm/giphy.gif'
+                      'https://media.giphy.com/media/XpgfPCejnWuAg/giphy.gif']
 
 spit_possible_gifs = ['https://media.giphy.com/media/l0HU5bbgdW6qzJsmQ/giphy.gif',
-                          'https://media.giphy.com/media/MD27a3bvc6Rhu/giphy.gif',
-                          'https://media.giphy.com/media/ZablVFuGJhb7qMmbqj/giphy.gif']
+                      'https://media.giphy.com/media/MD27a3bvc6Rhu/giphy.gif',
+                      'https://media.giphy.com/media/ZablVFuGJhb7qMmbqj/giphy.gif']
 
 possible_8ball_responses = ['That is a resounding no',
-                          'It is not looking likely',
-                          'Too hard to tell',
-                          'It is quite possible',
-                          'Definitely']
+                            'It is not looking likely',
+                            'Too hard to tell',
+                            'It is quite possible',
+                            'Definitely']
 
-game_name_choices = ["humans", "homo sapiens", "the boys", "the girls"]
+dab_possible_gifs = ["https://media.giphy.com/media/lae7QSMFxEkkE/giphy.gif",
+                     "https://media.giphy.com/media/3oz8xODcLLAxb8Qyju/giphy.gif",
+                     "https://media.giphy.com/media/XmgbcmQvLEThS/giphy.gif",
+                     "https://media.giphy.com/media/1gOYFa9vOJnva/giphy.gif",
+                     "https://media.giphy.com/media/l0K4mbH4lKBhAPFU4/giphy.gif",
+                     "https://media.giphy.com/media/K9E9CquJahUty/giphy.gif",
+                     "https://tenor.com/SIin.gif",
+                     "https://media.giphy.com/media/26FPpIxroCqzJzi7K/giphy.gif",
+                     "https://media.giphy.com/media/ZCFfSnfbFT3Gg/giphy.gif"]
+
 
 #-- Grab constants from text file --#
 file = open("constants.txt", "r")
@@ -167,6 +178,26 @@ async def simp(ctx, user:discord.Member = None):
         embed = discord.Embed(description=text, color=0x00ff00)
         embed.set_image(url="https://i.redd.it/kbrjd3824kg41.jpg")
         await ctx.send(embed=embed)
+
+@bot.command(name = "dab",
+                brief = "dab on the haters",
+                description = "user dabs",
+                pass_context = True)
+async def dab(ctx, user:discord.Member = None):
+    print("[DEBUG] dab detected")
+    if not user:
+        await ctx.send("If you dabbed and no one is watching, did you really dab?")
+    elif(ctx.message.author == user):
+        text = "{} dabbed! By themselves?\n\nSomeone dab with them...".format(ctx.message.author.mention)
+        embed = discord.Embed(description=text, color=0x00ff00)
+        embed.set_image(url=random.choice(dab_possible_gifs))
+        await ctx.send(embed=embed)
+    else:
+        text = "{} dabbed on {}!\n\nWhat a Hater...".format(ctx.message.author.mention, user.mention)
+        embed = discord.Embed(description=text, color=0x00ff00)
+        embed.set_image(url=random.choice(dab_possible_gifs))
+        await ctx.send(embed=embed)
+
 
 #----- Games -----#
 @bot.command(name = "lotto",
